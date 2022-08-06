@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Trainee Dashboard
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+{% include '../partials/messages.html' %}
+
+{% include './components/create_log_modal.html' %}
+
+
+{% if trainee_departments %}
+    
+<div class="row">
+
+
+
+
+    {% for trainee_details in trainee_departments %}
+<<<<<<< HEAD
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+
+
+        <div class="">
+            <div class="ribbon-wrapper-reverse">
+                <div class="ribbon ribbon-right ribbon-danger">{{trainee_details.department_name}}</div>
+                <div class="ribbon-content">
+                    <h5 class="box-title m-b-10">Trainee Name: <small class="text-muted">{{trainee.name}}</small></h5>
+                    <h5 class="box-title m-b-10">Manager: <small class="text-muted">{{trainee_details.manager.name}}</small></h5>
+                    <h5 class="box-title m-b-10">Hod: <small class="text-muted">{{ trainee_details.hod.name}}</small></h5>
+                    <div class="row">
+                        <div class="col-md-6 m-t-25">
+                            <a class="btn btn-primary btn-sm" href="{% url 'trainee:trainee_details' trainee.id trainee_details.id%}" >View Details</a>
+                        </div>
+                    </div>
+=======
+    <div class="col-lg-4 col-sm-6 col-xs-12">        
+        <div class="white-box">
+            <h3 class="box-title m-b-10">{{trainee_details.department.department_name}}</h3>
+            <h5 class="box-title m-b-10">Trainee Name: <small class="text-muted">{{trainee_details.trainee.name}}</small></h5>
+            <h5 class="box-title m-b-10">Manager: <small class="text-muted">{{trainee_details.department.department_departmentmanagers.last.manager.name}}</small></h5>
+                <h5 class="box-title m-b-10">Hod: <small class="text-muted">{{ trainee_details.department.department_departmenthod.last.hod.name}}</small></h5>
+                <div class="row">
+                <div class="col-md-6 m-t-25">
+                    <a class="btn btn-primary" href="{% url 'trainee:trainee_details' trainee_details.id trainee_details.department.id%}" >View Details</a>
+>>>>>>> 16f9b4e5292e03a0fca97ad0bf57c9bc44cd8291
+                </div>
+            </div>
+
+<!--            <h3 class="box-title m-b-10">{{trainee_details.department_name}}</h3>-->
+<!--            <h5 class="box-title m-b-10">Trainee Name: <small class="text-muted">{{trainee.name}}</small></h5>-->
+<!--            <h5 class="box-title m-b-10">Manager: <small class="text-muted">{{trainee_details.manager.name}}</small></h5>-->
+<!--            <h5 class="box-title m-b-10">Hod: <small class="text-muted">{{ trainee_details.hod.name}}</small></h5>-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-6 m-t-25">-->
+<!--                    <a class="btn btn-primary" href="{% url 'trainee:trainee_details' trainee.id trainee_details.id%}" >View Details</a>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+    </div>
+    {% endfor %}
+    
+</div>
+<<<<<<< HEAD
+
+
+
+
+=======
+>>>>>>> 16f9b4e5292e03a0fca97ad0bf57c9bc44cd8291
+
+{% if aggregate_nod == None %}
+    <h3>
+        You do not have any department or number of days has not been assinged to you for these departments
+    </h3>
+{% elif aggregate_nod == 0 %}
+<<<<<<< HEAD
+    O days was set for the number of days to be spent in departments please contact admin
+=======
+    <h3>
+        O days was set for the nmber of days to be spent in departments please contact admin
+    </h3>
+>>>>>>> 16f9b4e5292e03a0fca97ad0bf57c9bc44cd8291
+{% elif aggregate_nod > 0 %}
+    {% if trainee_logs_count >= aggregate_nod  %} 
+    
+
+        <div class="text-center alert alert-warning alert-dismissable alert-sm">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>You have successfully logged for all number of days
+        </div>
+    {% else %}
+
+    <div class="clearfix text-center m-b-10">
+       <a class="btn btn-info right" href="{% url 'trainee:trainee_dashboard' %}?{{prev_month}}"> Previous Month </a>
+
+       <a class="btn btn-info right" 
+       {% if  next_month|slice:'11:12' >= current_month|floatformat:"0" and next_month|slice:'6:10' >= current_year|floatformat:"0" %}
+    
+       href="{% url 'trainee:trainee_dashboard' %}"
+       {% else %}
+       href="{% url 'trainee:trainee_dashboard' %}?{{next_month}}"
+       {% endif %}   
+       >  Next Month </a>
+   </div>
+
+   
+   {% comment %}
+
+
+
+   <a class="btn btn-info right" 
+   {% if  next_month|slice:'11:12' >= current_month|floatformat:"0" and next_month|slice:'6:10' >= current_year|floatformat:"0" %}
+
+   href="{% url 'trainee:trainee_dashboard' %}"
+   {% else %}
+   href="{% url 'trainee:trainee_dashboard' %}?{{next_month}}"
+   {% endif %}   
+   > Back </a>
+
+
+
+       
+   {% if next_month|slice:"11:12" == current_month|floatformat:"0"  and next_month|slice:"6:10" == current_year|floatformat:"0" %}
+{% elif next_month|slice:"11:12" >= current_month|floatformat:"0" and next_month|slice:"6:10" >= current_year|floatformat:"0" %}
+    <div class="clearfix text-center m-b-10">
+        <a class="btn btn-info right" href="{% url 'trainee:trainee_dashboard' %}?{{prev_month}}"> Previous Month </a>
+
+        <!-- <a class="btn btn-info right" href="{% url 'trainee:trainee_dashboard' %}?{{next_month}}"> Next Month </a> -->
+       
+    </div>
+{% else %}
+<div class="clearfix text-center m-b-10">
+    <a class="btn btn-info right" href="{% url 'trainee:trainee_dashboard' %}?{{prev_month}}"> Previous Month </a>
+</div>
+
+{% endif %}
+   {% endcomment %}
+       
+
+    
+
+
+
+
+     {{  calender_context.calendar }} 
+    {% endif %}
+
+{% else %}
+
+{% endif %}
+
+
+
+{% else %}
+    <section id="wrapper" class="error-page">
+        <div class="error-box">
+            <div class="error-body text-center">
+                <h3 class="text-uppercase">You do not have any department. Please contact your HR</h3>
+                <p class="text-muted m-t-30 m-b-30">You do not have any permission to perform any action</p>
+                <a href="{% url 'accounts:user_logout' %}" class="btn btn-primary btn-lg btn-rounded waves-effect waves-light m-b-40">Logout</a>
+            </div>
+
+<<<<<<< HEAD
+        </div>
+    </section>
+=======
+<h3>You dont have any department contact Hr </h3> 
+
+
+
+{% endif %}
+    
+
+
+
+>>>>>>> 16f9b4e5292e03a0fca97ad0bf57c9bc44cd8291
+
+<!--<h3>You dont have any department contact Hr </h3>-->
+
+{% endif %}
+
+</div>
+{% endblock content %}

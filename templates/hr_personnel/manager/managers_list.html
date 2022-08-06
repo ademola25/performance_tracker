@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Manager's
+{% endblock title %}
+
+
+
+{% block extrahead %}
+    <script src="{% static '/js/hr_personnel.js' %}"></script>
+{% endblock extrahead %}
+    
+
+    
+
+{% block content %}
+{% include 'partials/left_sidebar.html' %}
+
+<div  class="container-fluid">
+
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'hr_personnel:hr_personnel_dashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="">Manager list</a></li>
+            </ol>
+        </nav>
+    </div>
+
+<div class="row">
+
+{% include './components/edit_modal.html' %}
+{% include './components/view_modal.html' %}
+{% include './add_manager.html' %}
+
+
+    {% include '../../partials/messages.html' %}
+    
+
+
+
+
+<div class="white-box">
+    <div class="text-right" style="margin:0px 10px 30px 0px;"  class="col-md-1">
+        <button data-toggle="modal" data-target="#addManager" data-whatever="@mdo" class="btn btn-primary">Add Manager</button>
+    </div>
+        <div class="container">
+        <div class="table-responsive">
+            <table class="table product-overview table-bordered table-striped table-dark" id="myTable">
+                <div class="nav navbar-top-links navbar-right ">
+                    <input type="text" placeholder="Search for manager..." id="searchField" class="form-control">
+                </div>
+                <h1 class="box-title m-b-0 text-capitalize m-b-5">ALL MANAGERS</h1>
+                <thead>
+                    <tr>
+                        <th>Manager ID</th>
+                        <th>Manager Name</th>
+                        <th>Manager Email</th>
+                        <th>Manager Department</th>
+                        <th>Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="trainees">
+                  
+                  {% if managers %}
+                  {% for manager in managers %}
+                  <tr>
+                      
+                      <td>{{manager.staff_id}}</td>
+                      <td>{{manager.name}}</td>
+                      <td>{{manager.email}}</td>
+                      
+                      
+                      
+                      <td>
+                          {% for i in manager.manager_departmentmanagers.all %}
+                        <span class="font-bold"> {{ forloop.counter }}.</span> {{i.department.department_name}}</br>                          
+                          {% endfor %}
+                        
+                        </td> 
+                          
+                          
+
+                      {% include './components/delete_modal.html' %}
+                      <td>
+                            <a  class="text-inverse p-r-10"href="{% url 'hr_personnel:edit_user' manager.id %}" title="Edit">
+                                <i class="ti-marker-alt"  ></i>
+                            </a>
+                            
+                            <a data-id="{{ manager.id }}"  data-name="{{ manager.name }}"  class="text-inverse" title="Delete" data-toggle="modal" data-target="#managerdeletModal"  data-whatever="@mdo">
+                                <i class="ti-trash"></i>
+                            </a> 
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    {% else %}
+                    Sorry no managers exist
+                    <tr>
+                        
+
+                    </tr>
+                  {% endif %}
+                      
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+
+    
+{% endblock content %}

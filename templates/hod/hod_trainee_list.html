@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Hr personnel Dashboard
+{% endblock title %}
+
+
+
+{% block extrahead %}
+    <script src="{% static '/js/hr_personnel.js' %}"></script>
+{% endblock extrahead %}
+    
+
+
+{% block content %}
+{% include 'partials/hod_navbar.html' %}
+
+
+
+
+<div  class="container-fluid">
+
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'hr_personnel:hr_personnel_dashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="">Trainee list</a></li>
+            </ol>
+        </nav>
+    </div>
+
+
+<div class="row">
+    
+
+    
+
+<div class="white-box">
+
+
+        
+
+<div class="container">
+
+    <div class="table-responsive">
+        <table class="table product-overview table-bordered table-striped table-dark" id="myTable">
+            <div class="nav navbar-top-links navbar-right ">
+                <input type="text" placeholder="Search for trainee.." id="searchField" class="form-control">
+            </div>
+            <h1 class="box-title m-b-0 text-capitalize m-b-5">ALL TRAINEES</h1>
+            <thead>
+                <tr>
+                    <th>Trainee ID</th>
+                    <th>Trainee Name</th>
+                    <th>Trainee Email</th>                    
+                    <th>Trainee Details</th>
+
+                </tr>
+            </thead>
+            <tbody id="trainees">
+                
+                {% if trainees %}
+
+                
+                {% for trainee in trainees %}
+                
+
+                <tr>
+                    <td>{{trainee.trainee.staff_id}}</td>
+                    <td>{{trainee.trainee.name}}</td>
+                    <td>{{trainee.trainee.email}}</td>
+                   
+
+
+                        <td> <a href="{% url 'hod_dashboard:hod_trainee_logs' trainee.department.department_departmentmanagers.first.manager.id trainee.trainee.id trainee.department.id %}" type="button" class="btn btn-primary" >Trainee Details</a></td>
+
+                        <td> <a href="{% url 'hod_dashboard:hod_trainee_logs_details' trainee.department.department_departmentmanagers.first.manager.id trainee.trainee.id trainee.department.id %}" type="button" class="btn btn-danger" >view managers comment</a></td>
+
+                </tr>
+                {% endfor %}
+                    
+
+                {% else %}
+                    No trainee currently available
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+        
+
+
+        
+    </div>
+</div>
+
+
+{% endblock content %}

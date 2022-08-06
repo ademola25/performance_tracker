@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Manager's Dashboard
+{% endblock title %}
+
+
+{% block content %}
+
+
+<!-- ===== Left-Sidebar-End ===== -->
+<!-- Page Content -->
+<div class="container-fluid">
+
+    {% include '../partials/messages.html' %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+
+            {% if request.user.role == 'hr' %}
+            <li class="breadcrumb-item"><a href="{% url 'hr_personnel:hr_personnel_dashboard' %}">Dashboard</a></li>
+
+            {% elif request.user.role == 'hod' %}
+            <li class="breadcrumb-item"><a href="{% url 'hod_dashboard:hod_dashboard' %}">Dashboard</a></li>
+            {% elif request.user.role == 'manager' %}
+
+            <li class="breadcrumb-item"><a href="{% url 'manager:manager_dashboard' %}">Dashboard</a></li>
+
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'trainee:trainee_dashboard' %}">Dashboard</a></li>
+
+
+            {% endif %}
+
+
+            <li class="breadcrumb-item"><a href="#">Trainee logs</a></li>
+        </ol>
+    </nav>
+
+   
+   {% if request.user.role == 'hr' %}
+    <!-- .row -->
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="white-box">
+                <div class="user-bg"> <img width="100%" alt="user" src="../plugins/images/large/img1.jpg">
+                    <div class="overlay-box">
+                        <div class="user-content">
+                            <h4 class="text-white">{{trainee.name}}</h4>
+                            <h5 class="text-white">{{trainee.email}}</h5>
+                            <h5 class="text-white">{{trainee.staff_id}}</h5>
+                            
+                            {% if workforce %}
+                                {% for i in workforce %}
+                                <h5 class="text-white">workforce: {{i}},</h5>
+                                {% endfor %}
+                            {% endif %}
+                                
+
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="user-btm-box">
+                    
+                    {% comment %}
+                    {% endcomment %}
+
+
+                </div>
+
+                
+            </div>
+        </div>
+
+        {% else %}
+         <!-- .row -->
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="white-box">
+                <div class="user-bg"> <img width="100%" alt="user" src="../plugins/images/large/img1.jpg">
+                    <div class="overlay-box">
+                        <div class="user-content">
+                            <h4 class="text-white">{{trainee.name}}</h4>
+                            <h5 class="text-white">{{trainee.email}}</h5> </div>
+                    </div>
+                </div>
+                <div class="user-btm-box">
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Manager</strong><br/>
+                            <p>{{department.department.department_departmentmanagers.first.manager.name}}</p>
+
+                            
+                        </div>
+                        <div class="col-md-6"><strong>HOD</strong></br>
+                               
+                            {{department.department.department_departmenthod.first.hod.name}}</br>
+
+                        </div>
+                    </div>
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Department</strong>
+                            <p>
+                                {{department.department}}</br>
+                            </p>
+                        </div>
+                        <div class="col-md-6"><strong>Number of days</strong>
+
+                            <p>
+                                {{number_of_days.value}}</br>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row text-left m-t-10">
+                        <div class="col-md-12"><strong>Key objectives</strong>
+                            
+                            <p>
+                                {{department.department.key_objective}}
+                                </br>
+                            </p>
+                        </div>
+                       
+                    </div>
+
+                </div>
+
+                
+            </div>
+        </div>
+       
+   {% endif %}
+       
+
+
+
+
+
+        <div class="col-md-7">
+            <div class="white-box">
+
+                <div class="p-b-20">
+                    <h2 class="m-t-40">Trainee Logs</h2>
+                    <div class="pull-right">
+                        {% if request.user.role == 'manager' %}
+
+                            {% comment %}
+                                {% if managers_comment %}
+                                    <a href="{% url 'managers_comment:edit_comment' managers_comment.id%}" class="btn btn-primary">
+                                        Edit your comment </a>
+                                {% else %}
+                                {% endif %}
+                            {% endcomment %}
+
+                            
+
+                            {% if number_of_days.numbers_of_days == 'sent_for_hods_approval' %}
+                                You have scored trainee. Awaiting HODs approval
+                            {% elif number_of_days.numbers_of_days == 'approved_by_hod' %}
+                                Approved by HOD
+                            {% elif number_of_days.numbers_of_days == 'disapproved_by_hod' %}
+                                Dis approved by HOD
+                            {% else %}
+                            
+                                    {% if show_approval %}
+                                    <a href="{% url 'managers_comment:create_comment' trainee_id department.department.id%}" class="btn btn-primary">Score/approve</a>
+                                    {% else %}
+                                    <a href="{% url 'managers_comment:create_comment' trainee_id department.department.id%}" class="btn btn-primary"> Comment on performance</a>
+                                    {% endif %}
+                            {% endif %}
+                                
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- <small>{{gt_logs.count}}</small> -->
+                <hr>
+                <ul class="search-listing">
+
+                    {% if gt_logs %}
+
+
+                    {% for log in gt_logs %}
+
+                    
+                        <h6>{{ log.number_of_days.department.department_name }} department</h6>
+                        <h4>Log: {{log.log}}</h4>
+                        <h4>
+                            KPI : {{log.kpi.key_objective}}
+                            
+                        </h4>
+                        <li>
+                            <p>{{ log.created_at }}</p>
+                        </li>
+                    
+                    <hr />
+                    {% endfor %}
+
+
+
+
+                    {% else %}
+                    This trainee does not have any Log to view
+                    {% endif %}
+
+
+
+
+                </ul>
+
+            </div>
+    </div>
+
+    
+    <div class="row">
+
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+
+
+{% endblock content %}

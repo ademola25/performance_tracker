@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+HOD Dashboard
+{% endblock title %}
+
+
+
+
+
+{% block content %}
+{% include 'partials/hod_navbar.html' %}
+<div class="container-fluid">
+    
+    {% if error %}
+
+
+    <div class="messages">
+        <div class="text-center alert alert-danger alert-dismissable alert-sm">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{ error }}</div>
+    </div>
+
+        
+    {% endif %}
+        
+
+
+    <div class="row colorbox-group-widget">
+        <div class="col-md-4 col-sm-3 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #005555;">
+                    <div class="media-body">
+                        <h2 class="info-count">{{trainees_count}} <span class="pull-right"><i
+                                    class="mdi mdi-account-multiple-outline"></i></span></h2>
+                        <p class="info-text font-14">Number of Trainees</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+       
+
+
+        <div class="col-md-4 col-sm-3 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #525E75;">
+                    <div class="media-body">
+                        <h2 class="info-count">{{trainees_approved}}<span class="pull-right"><i class="mdi mdi-account-multiple-outline"></i></span>
+                        </h2>
+                        <p class="info-text font-14">Trainees approved by you</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-3 info-color-box">
+            <div class="white-box">
+                <div class="media bg-danger" style="color:#fff; background-color: 005555;">
+                    <div class="media-body">
+                        <h2 class="info-count">{{trainees_disapproved}}<span class="pull-right"><i class="mdi mdi-account-multiple-outline"></i></span>
+                        </h2>
+                        <p class="info-text font-14">Trainees declined by you</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</div>
+</div>
+{% endblock content %}

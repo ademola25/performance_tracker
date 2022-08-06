@@ -1,0 +1,43 @@
+{% load static %}
+        <!-- ===== Top-Navigation ===== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <a class="navbar-toggle font-20 hidden-sm hidden-md hidden-lg text-danger" href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse">
+                    <i class="fa fa-bars" ></i>
+                </a>
+                <div class="top-left-part">
+                    <a class="logo" 
+                    
+                    
+                    href="
+                    {% if request.user.role == 'manager' %}
+                    {% url 'manager:manager_dashboard' %}
+                    {% elif request.user.role == 'hod' %}
+                    {% url 'hod_dashboard:hod_dashboard' %}
+                    {% elif request.user.role == 'trainee' %}
+                    {% url 'trainee:trainee_dashboard' %}
+                    {% elif request.user.role == 'hr' %}
+                    {% url 'hr_personnel:hr_personnel_dashboard' %}
+                    {% else %}
+                    {% url 'accounts:user_login' %}
+                    {% endif %}
+                    ">
+                        <b>
+                            <img src="{% static 'plugins/images/uba_logo.png' %}" alt="home" />
+                        </b>
+                        <span style="font-size: smaller!important; font-weight:200!important;" class="text-danger text-sm">
+                            <small>Graduate Trainee Portal</small>
+                        </span>
+                    </a>
+                </div>
+
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li class="right-side-toggle">
+                        <a class="right-side-toggler waves-effect waves-light b-r-0 font-20" href="{% url 'accounts:user_logout' %}">
+                            <i class="icon-logout text-danger"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- ===== Top-Navigation-End ===== -->

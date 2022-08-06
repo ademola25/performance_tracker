@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Hr personnel Dashboard
+{% endblock title %}
+
+
+
+{% block extrahead %}
+    <script src="{% static '/js/hr_personnel.js' %}"></script>
+{% endblock extrahead %}
+    
+
+
+{% block content %}
+{% include 'partials/left_sidebar.html' %}
+
+
+
+
+<div  class="container-fluid">
+
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'hr_personnel:hr_personnel_dashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="">Trainee list</a></li>
+            </ol>
+        </nav>
+    </div>
+
+
+<div class="row">
+    
+    {% include './components/edit_modal.html' %}
+    {% include './components/view_modal.html' %}
+    
+    {% include './components/delete_modal.html' %}
+    
+
+<div class="white-box">
+
+
+    {% include '../../partials/messages.html' %}
+        
+
+<div class="container">
+
+    <div class="table-responsive">
+        <table class="table product-overview table-bordered table-striped table-dark" id="myTable">
+            <div class="nav navbar-top-links navbar-right ">
+                <input type="text" placeholder="Search for trainee.." id="searchField" class="form-control">
+            </div>
+            <h1 class="box-title m-b-0 text-capitalize m-b-5">ALL TRAINEES</h1>
+            <thead>
+                <tr>
+                    <th>Trainee ID</th>
+                    <th>Trainee Name</th>
+                    <th>Trainee Email</th>
+                    <th>Departments</th>
+                    <th>Trainee Score</th>
+
+                    <th>Trainee Details</th>
+ 
+                </tr>
+            </thead>
+            <tbody id="trainees">
+                
+                {% if trainees %}
+
+                
+                {% for trainee in trainees %}
+
+                <tr>
+                    <td>{{trainee.staff_id}}</td>
+                    <td>{{trainee.name}}</td>
+                    <!-- <td> <img src="../plugins/images/chair.jpg" alt="iMac" width="80"> </td> -->
+                    <td>{{trainee.email}}</td>
+                    
+
+                    <!-- <td>
+                        
+                        {% for i in trainee.all_trainees.all %}
+                        <span class="font-bold"> {{ forloop.counter }}.</span> {{i.department_name}}<br />
+                        {% endfor %}
+                            
+                    </td> -->
+
+                    <td>
+                        {% for i in trainee.trainee_departmenttrainees.all %}
+                      <span class="font-bold"> {{ forloop.counter }}.</span> {{i.department.department_name}}</br>                          
+                        {% endfor %}
+                      
+                      </td> 
+
+
+
+                    <td>
+                        
+                        {% if trainee.trainee_scored.all %}
+                            
+                        
+                            
+                        {% for i in trainee.trainee_scored.all %}
+                            
+                            {% if i == None %}
+                            nothing
+                            {% else %}
+                            
+                            
+                            <span class="font-bold">{{i.department.department_name}}:</span> {{i.aggregate_score}} / {{i.attainable_score}}<br></br>
+                            {% endif %}
+                                
+                        {% endfor %}
+
+                        {% else %}
+                        No rating yet
+                        {% endif %}
+                    </td>
+ 
+
+
+                
+                    <td> <a type="button" class="btn btn-primary" href="{% url 'hr_personnel:trainee_details_view' trainee.id %}">View Details</a></td>
+                    
+                    {% comment %}
+                        
+                    {% endcomment %}
+                    
+                    <td> <a type="button" class="btn btn-primary" href="{% url 'manager:trainee_logs' trainee.id trainee.id %}">View log</a></td>
+
+                    <td>
+                        <a class="text-inverse p-r-10"  href="{% url 'hr_personnel:edit_user' trainee.id %}" >
+                            <i class="ti-marker-alt"  ></i>
+                        </a>
+                        
+                        <a class="text-inverse open-modal" data-id="{{ trainee.id }}"  data-name="{{ trainee.name }}" title="Delete"data-toggle="modal" data-target="#traineedeletModal"  data-whatever="@mdo">
+                            <i class="ti-trash"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+                    
+
+                {% else %}
+                    No trainee currently available
+                {% endif %}
+                    
+
+                
+               
+            </tbody>
+        </table>
+
+        {% if trainees.has_other_pages %}
+        <ul class="pagination">
+          {% if trainees.has_previous %}
+            <li><a href="?page={{ trainees.previous_page_number }}">&laquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+          {% endif %}
+          {% for i in trainees.paginator.page_range %}
+            {% if trainees.number == i %}
+              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+              <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if trainees.has_next %}
+            <li><a href="?page={{ trainees.next_page_number }}">&raquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+    </div>
+</div>
+
+
+
+        
+
+
+        
+    </div>
+</div>
+
+
+{% endblock content %}

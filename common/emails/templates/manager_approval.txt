@@ -1,0 +1,4 @@
+
+Hi, {{recipients.name|safe}}
+{{cc.name|safe}}'s Logs complete
+{{content|safe}}

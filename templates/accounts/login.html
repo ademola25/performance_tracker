@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+    <link href="{% static 'css/colors/red.css'%}" rel="stylesheet">
+    <link href="{% static 'css/extra.css'%}" rel="stylesheet">
+</head>
+
+<body class="mini-sidebar fix-header">
+    <!-- Preloader -->
+<div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+
+    
+    <section id="wrapper" class="login-register">
+        <header class="navbar navbar-header navbar-header-fixed navbar-trans header_container">
+            <div class="container-fluid p-10 p-r-30 p-l-30">
+                <div class="navbar-brand">
+                    <a class="df-logo" href="/">GT<span> Performance Portal</span></a>
+                </div>
+                <div class="navbar-right">
+                    <img class="login-logo-right" src="{% static 'plugins/images/uba-logo-white.svg' %}" alt="">
+                </div>
+            </div>
+        </header>
+        
+        <div class="login-box">
+            <div class="white-box">
+                {% include '../partials/messages.html' %}
+
+                <form class="form-horizontal form-material" id="loginform" method='POST'
+                    action="{% url 'accounts:user_login' %}">
+                    {% csrf_token %}
+                    <h3 class="box-title m-b-20">Sign In</h3>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="email" required="" placeholder="Email" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input class="form-control" type="password" required="" placeholder="Password"
+                                name="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input name="next" value="{{request.GET.next}}" hidden />
+                    </div>
+                    <div class="form-group text-center m-t-20">
+                        <div class="col-xs-12">
+                            <button class="btn btn-danger btn-lg btn-block text-uppercase waves-effect waves-light"
+                                type="submit">Log In</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/sidebarmenu.js' %}"></script>
+
+    <script src="{% static 'js/custom.js' %}"></script>
+
+    <script src="{% static 'js/waves.js' %}"></script>
+</body>
+
+</html>

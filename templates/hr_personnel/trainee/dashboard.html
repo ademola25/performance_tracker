@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Hr personnel Dashboard
+{% endblock title %}
+
+{% block extrahead %}
+<script src="{% static '/js/hr_personnel.js' %}"></script>
+{% endblock extrahead %}
+
+
+
+{% block content %}
+{% include 'partials/left_sidebar.html' %}
+
+
+<div class="container-fluid">
+
+    {% include '../../partials/messages.html' %}
+
+    <div class="row colorbox-group-widget">
+        <div class="col-md-3 col-sm-6 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #005555;">
+                    <div class="media-body">
+                        <h3 class="info-count">{{trainees.count}} <span class="pull-right"><i class="mdi mdi-account-multiple-outline"></i></span></h3>
+                        <p class="info-text font-12">Number of Trainees</p>
+                        <!-- <p class="info-ot font-15">Target<span class="label label-rounded"></span></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #A64B2A;">
+                    <div class="media-body">
+                        <h3 class="info-count">{{departments.count}} <span class="pull-right"><i class="mdi mdi-hospital-building"></i></span></h3>
+                        <p class="info-text font-12">Number of Departments</p>
+                        <!-- <p class="info-ot font-15">Total Pending<span class="label label-rounded"></span></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #383838;">
+                    <div class="media-body">
+                        <h3 class="info-count">{{managers.count}}<span class="pull-right"><i class="mdi mdi-account-circle"></i></span></h3>
+                        <p class="info-text font-12">Number of managers</p>
+                        <!-- <p class="info-ot font-15">Pending<span class="label label-rounded"></span></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #143F6B;">
+                    <div class="media-body">
+                        <h3 class="info-count">{{hods.count}}<span class="pull-right"><i class="mdi mdi-account-check"></i></span></h3>
+                        <p class="info-text font-12">Number of HODs</p>
+                        <!-- <p class="info-ot font-15">Pending<span class="label label-rounded"></span></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+
+            <div class="white-box ">
+                <div>
+                    <h3 class="">Upload New Trainees</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-inverse">Please use the button below to download a template for upload</div>
+                    </div>
+                </div>
+                <form action="{% url 'hr_personnel:hr_personnel_dashboard' %}"
+                      method="post" class="form-group row">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button  type="submit" name="existing_template" class="btn btn-primary m-l-15">
+                                <i class="mdi mdi-download"></i> Download template
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="{% url 'hr_personnel:hr_personnel_dashboard' %}" method="post" enctype="multipart/form-data"
+                              class="">
+                            {% csrf_token %}
+                            {{form|crispy}}
+                            {% comment %}
+                            {% for field in form %}
+                            <div class="">
+                                {{ field.errors }}
+                                {{ field }}
+                            </div>
+                            <br />
+                            {% endfor %}
+                            {% endcomment %}
+
+
+
+                            <div class="text-right">
+                                <div class="text-right m-t-5">
+                                    <button type="submit" class="btn btn-success" name="upload_trainees" >Upload <i class="mdi mdi-upload"></i></button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title ">Download Reports</h3>
+                <form action="{% url 'hr_personnel:hr_personnel_dashboard' %}"
+                method="post" class="form-group row">
+                {% csrf_token %}
+                    <div class="form-group col-md-6">
+                        <label for="start_date">Start Date</label><br>
+                        <input type="date" placeholder="" class="form-control" name="start_date" id="start_date" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="end_date">End Date</label><br>
+                        <input type="date" placeholder="" class="form-control" name="end_date" id="end_date" required>
+                    </div>
+                    <div class="text-right">
+                        <button  type="submit" name="download_report" class="btn btn-primary">Download report</button>
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+
+
+<!--        <div class="col-lg-6 col-sm-6 col-xs-12">-->
+<!--            <div class="white-box">-->
+<!--                <h3 class="box-title text-center ">Download Template</h3>-->
+<!--                <form action="{% url 'hr_personnel:hr_personnel_dashboard' %}"-->
+<!--                method="post" class="form-group row">-->
+<!--                {% csrf_token %}-->
+<!--                    <div class="text-center">-->
+<!--                        <button  type="submit" name="existing_template" class="btn btn-primary">Download template</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+
+
+
+<!--            </div>-->
+<!--        </div>-->
+
+    </div>
+
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,71 @@
+.login-register header{
+    background: hsla(0,0%,100%,.23921568627450981)!important
+}
+.login-register .navbar-brand a{
+    color: #fff !important;
+    font-size: 28px;
+    font-weight: 500;
+}
+.login-register .navbar-brand a span{
+    color: #8f9dae !important;
+}
+.login-register .login-logo-right {
+    width: 10rem;
+}
+.login-box {
+    margin: 15% auto 0 !important;
+}
+.btn-primary {
+    color: #fff !important;
+    background-color: #e20f00 !important;
+    border-color: #e20f00 !important;
+}
+.ribbon-wrapper-reverse {
+    padding: 50px 50px 15px 15px;
+}
+.ribbon-wrapper, .ribbon-wrapper-bottom, .ribbon-wrapper-reverse, .ribbon-wrapper-right-bottom {
+    position: relative;
+    background: #fff;
+    padding: 50px 15px 15px 50px;
+}
+
+.ribbon-danger {
+    background: #e20f00;
+}
+.ribbon-right {
+    left: auto !important;
+    right: -2px;
+}
+.ribbon {
+    padding: 0 20px;
+    height: 30px;
+    line-height: 30px;
+    clear: left;
+    position: absolute;
+    top: 12px;
+    left: -2px;
+    color: #fff;
+}
+.user-bg .overlay-box{
+    opacity: 0.8;
+    background: #e5e5e5;
+    color: #000;
+}
+.form-material .form-control, .form-material .form-control {
+    background-image: linear-gradient(#e20f00,#e20f00),linear-gradient(rgba(255,255,255,.2),rgba(255,255,255,.2)) !important;
+    border-bottom: 1px solid #666666;
+    /*border: 0;*/
+    border-radius: 0;
+    box-shadow: none;
+    float: none;
+}
+
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+  }

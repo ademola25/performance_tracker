@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+Trainee Dashboard
+{% endblock title %}
+{% block content %}
+<div class="container-fluid">
+{% include '../partials/messages.html' %}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'trainee:trainee_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="">Department details</a></li>
+        </ol>
+    </nav>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="white-box">
+            <div class="user-bg"> <img width="100%" alt="user" src="../plugins/images/large/img1.jpg">
+                <div class="overlay-box">
+                    <div class="user-content">
+                        <h4 class="text-white">{{trainee.staff_id}}</h4>
+                        <h4 class="text-white">{{trainee.name}}</h4>
+                        <h5 class="text-white">{{trainee.email}}</h5> </div>
+                </div>
+            </div>
+            <div class="user-btm-box">
+                <div class="row text-center m-t-10">
+                    <div class="col-md-6 b-r"><strong>Manager</strong>
+                        <p>{{department.department_departmentmanagers.last.manager.name}}</p>
+                    </div>
+                    <div class="col-md-6"><strong>HOD</strong>
+                        <p>{{ department.department_departmenthod.last.hod.name }}</p>
+                    </div>
+                </div>
+
+
+                <div class="row text-center m-t-10">
+                    <div class="col-md-6 b-r"><strong>Department</strong>
+                        <p>{{department.department_name}}</p>
+                    </div>
+                    <div class="col-md-6"><strong>Number of days</strong>
+                        <p>{{number_of_days_details.value}}</p>
+                    </div>
+
+
+                    <div class="col-md-12 mt-10 text-left"><strong>Key Objectives</strong>
+                        <p>{{department.key_objective}}</p>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+
+
+
+
+                
+                
+                    
+
+                <div class="col-lg-6 col-sm-6 col-xs-12">                    
+                    <div class="white-box">
+                        {% if weekend %}
+                            <h3>Its a weekend you can not Log today</h3>
+                        {% else %}
+                            {% if all_permanent_gt_log.count >= number_of_days_details.value %}
+                                <h3>You have completed your logs and awaiting Approval</h3>
+                            {% else %}
+                                {% if todays_gt_log  != None %}
+                                    {% if todays_gt_log.number_of_days.department.id == department.id  %}
+
+                                        <form method='POST'
+                                            action="{% url 'trainee:trainee_details' trainee.id department.id%}" 
+                                            >
+                                            {% csrf_token %}
+                                            {{update_log_form|crispy}}
+
+                                            <div class="form-group">
+                                                <label for="key_objective">Departments KPI</label>
+                                                <select class="form-control" name="key_objective" id="key_objective">
+                                                    <option value="">------</option>
+                                                    
+                                                    {% for dept_kpi in departments_kpi %}
+                                                    <option value={{dept_kpi.id}}>{{dept_kpi.key_objective}}</option>
+                                                        
+                                                    {% endfor %}
+                                                        
+                                                  
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="text-center m-t-20 m-b-30">
+                                                <!-- <button name="edit_log_temporarily" class="btn btn-success">Save Log activity</button> -->
+                                                <button name="edit_log_permanently" class="btn btn-success">Submit Log Activity</button>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                    <h5>You have logged for another department come back tomorrow</h5>
+                                    {% endif %}
+                                {% else %}
+                                    <form class="m-10"  
+                                        method="post"
+                                        action="{% url 'trainee:trainee_details' trainee.id department.id%}" 
+                                        class="form-group">
+                                        {% csrf_token %}
+                                        {{create_log_form|crispy}}
+
+                                        <div class="form-group">
+                                            <label for="key_objective">Departments KPI</label>
+                                            <select class="form-control" name="key_objective" id="key_objective" required>
+                                                <option value="">------</option>
+                                                
+                                                {% for dept_kpi in departments_kpi %}
+                                                <option value={{dept_kpi.id}}>{{dept_kpi.key_objective}}</option>
+                                                    
+                                                {% endfor %}
+                                                    
+                                              
+                                            </select>
+                                        </div>
+
+                                        
+                                        <div class="text-center m-t-20 m-b-30">
+                                            <!-- <button name="create_log_temporarily" class="btn btn-success">Save Log activity</button> -->
+                                            <button name="create_log_permanently" class="btn btn-success">Submit Log Activity</button>
+                                        </div>
+                                    </form> 
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}                
+                    </div>
+                </div>
+    </div>
+</div>
+                
+
+          
+
+
+
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Trainee View
+{% endblock title %}
+    
+
+{% block content %}
+<div class="container-fluid">
+
+{% include '../partials/messages.html' %}
+
+<div class="container-fluid">
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+    
+           
+            <li class="breadcrumb-item"><a href="{% url 'manager:manager_dashboard' %}">Dashboard</a></li>
+   
+    
+            <li class="breadcrumb-item"><a href="#">Trainee details</a></li>
+        </ol>
+    </nav>
+
+    <!-- /.row -->
+    <!-- .row -->
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="white-box">
+                <div class="user-bg"> <img width="100%" alt="user" src="../plugins/images/large/img1.jpg">
+                    <div class="overlay-box">
+                        <div class="user-content">
+                            <!-- <img src="{% static 'plugins/images/anonymous.jpg' %}" class="thumb-lg img-circle" alt="img"> -->
+                            <h4 class="text-white">{{trainee.name}}</h4>
+                            <h5 class="text-white">{{trainee.email}}</h5> </div>
+                    </div>
+                </div>
+                <div class="user-btm-box">
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Manager</strong>
+                            <p>{{department.department.department_departmentmanagers.first.manager.name}}</p>
+                        </div>
+                        <div class="col-md-6"><strong>HOD</strong>
+                            <p>{{department.department.department_departmenthod.first.hod.name}}</p>
+                        </div>
+                    </div>
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Department</strong>
+                            <p>{{department.department}}</p>
+                        </div>
+                        <div class="col-md-6"><strong>Number of days</strong>
+                            <p>{{number_of_days.value}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+               
+        
+
+
+        
+        {% if numbers_of_days.numbers_of_days_status == 'sent_for_hods_approval' %}
+        <h3>you have sent for HODs approval</h3>
+
+                
+        {% elif numbers_of_days.numbers_of_days_status == 'approved_by_hod' %}
+        <h3>Trainee has been approved by HOD</h3>
+        {% elif numbers_of_days.numbers_of_days_status == 'sent_for_hods_approval' %}
+        <h3>Your comment and Score has been sent for approval</h3>
+        {% elif numbers_of_days.numbers_of_days_status == 'disapproved_by_hod' %}
+
+        <h3>Trainee was disapproved by HOD</h3>
+
+        {% elif numbers_of_days.numbers_of_days_status == 'sent_for_managers_approval' %}
+            Last scoring fot this trainee
+
+        {% else %}
+
+        {% if log_count == number_of_days.value %}
+        
+        <form method='POST'
+        
+        {% comment %}
+        action="{% url 'manager:manager_trainee_dashboard_view' trainee.id %}" 
+        {% endcomment %}
+        >
+        
+        {% csrf_token %}
+        
+        {{ form|crispy }}
+        
+        
+        <div class="text-center m-t-20 m-b-30">
+            <button name="edit_log_temporarily" class="btn btn-success">Score trainee</button>
+        </div>
+        
+        </form>
+        
+        {% else %}
+        
+        Trainee has not completed log for duration of time in department.
+
+
+        
+        
+ 
+
+        {% endif %}
+            
+        
+        {% if sent_for_approval.approved %}
+        
+        <p>Trainee has been approved</p>
+        
+        
+        {% elif sent_for_approval.sent_for_approval == True %}
+        
+        <h3>Your comment and Score has been sent for approval</h3>
+        
+        {% else %}
+        
+        {% if log_count == number_of_days.value %}
+        
+        <form method='POST'
+        
+        {% comment %}
+        action="{% url 'manager:manager_trainee_dashboard_view' trainee.id %}" 
+        {% endcomment %}
+        >
+        
+        {% csrf_token %}
+        
+        {{ form|crispy }}
+        
+        
+        <div class="text-center m-t-20 m-b-30">
+            <button name="edit_log_temporarily" class="btn btn-success">Score trainee</button>
+        </div>
+        
+        </form>
+        
+        {% else %}
+        
+        Trainee has not completed log for duration of time in department.
+            
+        {% endif %}
+            
+        {% endif %}
+            
+            
+                   
+        
+            </div>
+        </div>
+
+
+        </div>
+        
+
+
+
+
+</div>
+
+
+    
+{% endblock content %}

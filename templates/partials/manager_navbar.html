@@ -1,0 +1,35 @@
+{% load static %} 
+  <!-- ===== Left-Sidebar ===== -->
+  <aside class="sidebar">
+    <div class="scroll-sidebar">
+        <nav class="sidebar-nav">
+            <ul id="side-menu">
+                <li>
+                    <a class="active waves-effect" href="{% url 'manager:manager_dashboard' %}"  aria-expanded="false"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
+                   
+                </li>
+                <li class="two-column">
+
+{% comment %}
+    
+
+<a class="waves-effect" href="{% url 'hod_dashboard:awaiting_approval' %}"  aria-expanded="false"><i class="icon-equalizer fa-fw"></i> <span class="hide-menu">Awaiting Approval</span></a>
+{% endcomment %}
+                   
+                </li>
+
+                <li class="two-column">
+                    
+                    {% comment %}
+                        
+                    
+                    {% endcomment %}
+                    <a class="waves-effect" href="{% url 'manager:manager_trainee_list' %}"  aria-expanded="false"><i class="icon-equalizer fa-fw"></i> <span class="hide-menu">All Trainees</span></a>
+                   
+                </li>
+               
+            </ul>
+        </nav>
+    </div>
+</aside>
+<!-- ===== Left-Sidebar-End ===== -->

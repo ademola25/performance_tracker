@@ -1,0 +1,126 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/uba-favicon.ico">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="UBA HR Portal">
+  <link rel="icon" href="/uba-favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/uba-favicon.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <title>HR Automation</title>
+  <link href="{% static 'css/login.css' %}" rel="stylesheet">
+  <link href="{% static 'css/auth.css' %}" rel="stylesheet">
+  <style data-emotion="css"></style>
+  <style type="text/css">
+    @keyframes tawkMaxOpen {
+      0% {
+        opacity: 0;
+        transform: translate(0, 30px);
+        ;
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(0, 0px);
+      }
+    }
+
+    @-moz-keyframes tawkMaxOpen {
+      0% {
+        opacity: 0;
+        transform: translate(0, 30px);
+        ;
+      }
+ 
+      to {
+        opacity: 1;
+        transform: translate(0, 0px);
+      }
+    }
+
+    @-webkit-keyframes tawkMaxOpen {
+      0% {
+        opacity: 0;
+        transform: translate(0, 30px);
+        ;
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(0, 0px);
+      }
+    }
+  </style>
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5f1f1c195e51983a11f5e4e3/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</head>
+
+<body><noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <div class="container-fluid nopadding login_container">
+      <header class="navbar navbar-header navbar-header-fixed navbar-trans header_container">
+        <div class="navbar-brand"><a aria-current="page" class="df-logo active" href="/">HR<span>Manager</span></a>
+        </div>
+        <div class="navbar-right"><img class="login-logo-right" src="{% static 'img/uba-logo-white.svg' %}" alt="">
+        </div>
+      </header>
+      <div class="login_form_container d-flex align-items-center">
+        <form class="login_form w-100 p-5" method="POST" action="">
+          {% csrf_token %}
+          <h1>2FA Authentication</h1>
+          <p>Enter your 2FA token below</p>
+          {% if messages %}
+          <ul style="font-size: 1.5em;" class="text-center mt-5">
+            {% for message in messages %}
+            {{ message|safe }}
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {% if error %}
+          <p class="error" style="color: red;">{{ message }}</p>
+          {% endif %}
+          <div class="form-group"><label for="email" class="d-block tx-bold text-secondary">Token</label>
+          <input type="text" name="token" autofocus="true" required id="token" class="form-control" placeholder="i.e 123 456"></div>
+          <input type="email" name="email" required value="{{email}}" hidden>
+          <input type="password" name="password" required value="{{password}}" hidden>
+          <button class="btn btn-primary btn-block mt-4" type="submit">Login </button>
+          <input name="next" value="{{next}}" hidden />
+        </form>
+      </div>
+      <footer class="footer footer_container">
+        <div><span>© {% now "Y" %} UBA Group v1.0.0. </span></div>
+      </footer>
+    </div>
+  </div>
+  <script>
+     var input = document.querySelector('#token');
+     var handleChange = function() {
+       var ele = document.getElementById('token');
+       var text = ele.value;
+       if(text){
+         if(text.trim().length==6){
+           ele.form.submit();
+         }
+       }
+    };
+    input.addEventListener('change', handleChange);
+    input.addEventListener('keyup', handleChange);
+  </script>
+</body>
+</html>

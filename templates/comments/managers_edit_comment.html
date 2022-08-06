@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    Trainee Dashboard
+{% endblock title %}
+    
+ 
+{% block content %}
+<div class="container-fluid">
+  
+{% include '../partials/messages.html' %}
+
+{% include './modals/perm_create.html' %}
+{% include './modals/perm_edit.html' %}
+{% include './modals/temp_create.html' %}
+{% include './modals/temp_edit.html' %}
+
+    <div class="white-box">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                
+                
+                {% if managers_comment.sent_for_approval == True %}
+                
+                <div>
+                    <h3>You Submitted comments for approval</h3>
+                        <p class="text-lg">COMMENT: <span class="text-primary">{{managers_comment.comment}}</span></p>
+                        <p class="text-lg">Submission Date: <span class="text-primary">{{managers_comment.updated_at}}</span></p>
+                    </div>
+                    
+                    
+                
+                    
+{% comment %}
+<!-- {% else %}
+<h3>Edit your comments below!</h3>
+
+{% if trainee_log_count == number_of_days.value %}
+
+    <form class="m-10" action="{% url 'managers_comment:edit_comment' comment_id %}" 
+    method="post" class="form-group">
+
+    {% csrf_token %}
+    {{form|crispy}}
+    {{grading_form|crispy}}
+    </form>
+    <div class="text-center m-t-20 m-b-30">
+        <button  type="submit" name="parmanent" class="btn btn-success"  data-toggle="modal" data-target="#permCreate"  data-whatever="@mdo">Comment / send for approval</button>
+        <a href="{% url 'manager:manager_dashboard' %}"  class="btn btn-warning">Cancel</a>
+
+    </div>
+
+{% else %} -->
+{% endcomment %}
+                    
+                    {% elif gt_logs.count >= number_of_days.value %}
+                        
+                    
+                    
+                    <form id="editsavePerm" class="m-10" action="{% url 'managers_comment:edit_comment' comment_id %}" 
+                    method="post" class="form-group">
+                    
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    {{grading_form|crispy}}
+                    <!-- <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" type="file" /> -->
+                </form>
+                <div class="text-center m-t-20 m-b-30">
+                    <button  type="submit" name="permanently" class="btn btn-success"  data-toggle="modal" data-target="#permEdit"  data-whatever="@mdo">Save Comment</button>
+                    <a href="{% url 'manager:manager_dashboard' %}"  class="btn btn-warning">Cancel</a>
+                </div>
+
+
+                    {% else %}
+
+                    <form id="editsaveTemp" class="m-10" action="{% url 'managers_comment:edit_comment' comment_id %}" 
+                    method="post" class="form-group">
+
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <!-- <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" type="file" /> -->
+                    </form>
+                    <div class="text-center m-t-20 m-b-30">
+                        <button  type="submit" name="temporarily" class="btn btn-success"  data-toggle="modal" data-target="#tempEdit"  data-whatever="@mdo">Save Comment</button>
+                        <a href="{% url 'manager:manager_dashboard' %}"  class="btn btn-warning">Cancel</a>
+                        
+                    </div>
+
+                    {% endif %}
+
+
+            </div>    
+        </div>
+
+    </div>
+</div>
+    
+{% endblock content %}

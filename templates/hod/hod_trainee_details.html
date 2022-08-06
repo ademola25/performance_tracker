@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+Trainee View
+{% endblock title %}
+
+
+{% block content %}
+{% include 'partials/hod_navbar.html' %}
+
+<div class="container-fluid">
+    {% include './components/add_comment.html' %}
+    {% include './components/hod_approve.html' %}
+
+
+    {% include '../partials/messages.html' %}
+
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+
+
+            <li class="breadcrumb-item"><a href="{% url 'hr_personnel:hr_personnel_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'hr_personnel:all_trainees' %}">Trainee List</a></li>
+
+
+            <li class="breadcrumb-item"><a href="#">Trainee details</a></li>
+        </ol>
+    </nav>
+
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="white-box">
+                <div class="user-bg"> <img width="100%" alt="user" src="../plugins/images/large/img1.jpg">
+                    <div class="overlay-box">
+                        <div class="user-content">
+
+                            <!-- <img src="{% static 'plugins/images/anonymous.jpeg' %}" class="thumb-lg img-circle" alt="img"> -->
+                            <h4 class="text-white">{{trainee.staff_id}}</h4>
+                            <h4 class="text-white">{{trainee.name}}</h4>
+                            <h5 class="text-white">{{trainee.email}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-btm-box">
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Managers</strong>
+                            <p>
+                                {{number_of_days.department.manager.name}}
+                            </p>
+
+                        </div>
+                        <div class="col-md-6"><strong>HOD</strong>
+                            <p>
+                                {{number_of_days.department.hod.email}}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Department</strong>
+                            <p>
+                                {{number_of_days.department.department_name}}
+                            </p>
+                        </div>
+                        <div class="col-md-6"><strong>Number of days</strong>
+                            <p>
+                                {{number_of_days.value}}
+
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Managers score</strong>
+                            <p>
+                                {{number_of_days.managers_overall_score}}
+                            </p>
+                        </div>
+                        <div class="col-md-6"><strong>Managers Comment</strong>
+                            <p>
+                                {{number_of_days.managers_overall_comment}}<br>
+                               
+                            </p>
+                        </div>
+                    </div>
+                    
+                   
+                   {% comment %}
+                        <div class="text-center m-t-10">
+                            <a class="btn btn-primary" href="{% url 'hod_dashboard:hod_trainee_logs' trainee_id manager_id department_id%}"> View trainee's Log</a>
+                        </div>
+                    {% endcomment %}
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- second column  -->
+
+        <div class="col-md-7">
+
+
+        <div class="white-box">
+
+
+            
+            <div class="p-b-20">
+                <h2 class="m-t-40">Trainee Logs</h2>
+                <div class="pull-right">
+                    {% if request.user.role == 'manager' %}
+
+                        {% comment %}
+                            {% if managers_comment %}
+                                <a href="{% url 'managers_comment:edit_comment' managers_comment.id%}" class="btn btn-primary">
+                                    Edit your comment </a>
+                            {% else %}
+                            {% endif %}
+                        {% endcomment %}
+
+                        
+
+                        {% if number_of_days.numbers_of_days == 'sent_for_hods_approval' %}
+                            You have scored trainee. Awaiting HODs approval
+                        {% elif number_of_days.numbers_of_days == 'approved_by_hod' %}
+                            Approved by HOD
+                        {% elif number_of_days.numbers_of_days == 'disapproved_by_hod' %}
+                            Dis approved by HOD
+                        {% else %}
+                        
+                                {% if show_approval %}
+                                <a href="{% url 'managers_comment:create_comment' trainee_id department.department.id%}" class="btn btn-primary">Score/approve</a>
+                                {% else %}
+                                <a href="{% url 'managers_comment:create_comment' trainee_id department.department.id%}" class="btn btn-primary"> Comment on performance</a>
+                                {% endif %}
+                        {% endif %}
+                            
+                    {% else %}
+
+                    <div class="pull-right">
+
+                        {% if request.user.role == 'manager' %}
+                            {% if number_of_days.numbers_of_days == 'approved_by_hod' %}
+                                Approved by HOD
+                            {% elif number_of_days.numbers_of_days == 'disapproved_by_hod' %}
+                                Disapproved by HOD
+                            {% elif number_of_days.numbers_of_days == 'sent_for_hods_approval' %}
+                                    Trainee Approved by you, awaiting HOD approval
+                            {% else %}
+                                    .
+                            {% endif %}
+    
+                        {% elif request.user.role == 'hod' %}                               
+                            {% if number_of_days.numbers_of_days == 'approved_by_hod' %}
+                                Approved by You
+                            {% elif number_of_days.numbers_of_days == 'disapproved_by_hod' %}
+                                Disapproved by You
+                            {% elif number_of_days.numbers_of_days == 'sent_for_hods_approval' %}
+                            <a href="" data-toggle="modal" data-target="#hod_approve" data-whatever="@mdo"
+                            class="btn btn-primary">Approve/Disapprove</a>
+                            {% else %}
+                                -
+                        {% endif %}
+                        
+                        {% else %}
+                            ---
+                        
+    
+                     {% endif %}
+    
+    
+    
+    
+    
+                     
+                     {% comment %}
+                        {% if request.user.role == 'manager' %}
+    
+                        {% if managers_comment.sent_for_approval == True and managers_comment.approved == True %}
+                            Approved by HOD
+                        {% elif managers_comment.approved == False  and  managers_comment.sent_for_approval == True%}
+                            Trainee Approved by you, awaiting HOD approval
+    
+                        {% else %}
+                            <a href="" data-toggle="modal" data-target="#addComent" data-whatever="@mdo"
+                                class="btn btn-primary"> Give Comment </a>
+    
+                        {% endif %}
+                        {% else %}
+                            {% if  managers_comment.approved == True %}
+                                Trainee activities have been approved by you
+                            {% else %}
+                            <a href="" data-toggle="modal" data-target="#addComent" data-whatever="@mdo"
+                            class="btn btn-primary"> Give Comment</a>
+    
+                            {% endif %}
+                            {% endif %}
+                     {% endcomment %}
+                    </div>
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- <small>{{gt_logs.count}}</small> -->
+            <hr>
+            <ul class="search-listing">
+
+                {% if gt_logs %}
+
+
+                {% for log in gt_logs %}
+
+                
+                    <h6>{{ log.number_of_days.department.department_name }} department</h6>
+                    <h4>{{log.log}}</h4>
+                    <li>
+                        <p>{{ log.created_at }}</p>
+                    </li>
+                
+                <hr />
+                {% endfor %}
+
+
+
+
+                {% else %}
+                This trainee does not have any Log to view
+                {% endif %}
+
+
+
+
+            </ul>
+
+        </div>
+
+
+
+        </div>
+        </div>
+
+        
+  
+
+
+
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Trainee Dashboard
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+{% include '../partials/messages.html' %}
+
+{% include './components/create_log_modal.html' %}
+
+
+{% if trainee_departments %}
+    
+<div class="row m-b-5 p-b-5">
+
+
+
+
+    {% for trainee_details in trainee_departments %}
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+
+        <div class="">
+            <div class="ribbon-wrapper-reverse">
+                <div class="ribbon ribbon-right ribbon-danger">{{trainee_details.department.department_name}}</div>
+                <div class="ribbon-content">
+                    <h5 class="box-title m-b-10">Trainee Name: <small class="text-muted">{{trainee_details.trainee.name}}</small></h5>
+                    <h5 class="box-title m-b-10">Manager: <small class="text-muted">{{trainee_details.department.department_departmentmanagers.last.manager.name}}</small></h5>
+                    <h5 class="box-title m-b-10">Hod: <small class="text-muted">{{ trainee_details.department.department_departmenthod.last.hod.name}}</small></h5>
+                    <div class="row">
+                        <div class="col-md-6 m-t-25">
+                            <a class="btn btn-primary" href="{% url 'trainee:trainee_details' trainee_details.id trainee_details.department.id%}" >View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+
+
+    {% endfor %}
+    
+</div>
+
+<br />
+
+{% if aggregate_nod == None %}
+    <h3>
+        You do not have any department or number of days has not been assinged to you for these departments
+    </h3>
+{% elif aggregate_nod == 0 %}
+    <h3>
+        O days was set for the nmber of days to be spent in departments please contact admin
+    </h3>
+{% elif aggregate_nod > 0 %}
+    {% if trainee_logs_count >= aggregate_nod  %} 
+    
+       <h3>
+           
+        <div class="text-center alert alert-warning alert-dismissable alert-sm">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>You have successfully logged for all number of days</div>
+        </h3>
+    {% else %}
+
+    
+
+    <div class="clearfix text-center m-b-10 m-r-10">
+        <a class="p-r-5 m-r-5" href="{% url 'trainee:trainee_dashboard' %}?{{prev_month}}">
+            
+        
+         <img src="{% static 'plugins/images/arrow_left.jpeg' %}" class="w-10 h-10" style="width: 20px;" alt="">
+     </a>
+ 
+ 
+        <a class="" 
+        {% if  next_month|slice:'11:12' >= current_month|floatformat:"0" and next_month|slice:'6:10' >= current_year|floatformat:"0" %}
+     
+        href="{% url 'trainee:trainee_dashboard' %}"
+        {% else %}
+        href="{% url 'trainee:trainee_dashboard' %}?{{next_month}}"
+        {% endif %}   
+        > 
+        <img src="{% static 'plugins/images/arrow_right.jpeg' %}" class="w-10 h-10" style="width: 20px;" alt="">
+     
+     </a>
+    </div>
+    <div class="col-md-4">
+        <div class="white-box">
+            <h5 class="font-bold p-b-5">Calendar Legend</h5>
+
+          <div class="row">
+              <div class="col-md-6">Green</div>
+              <div class="col-md-6">Already Logged</div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">Red</div>
+            <div class="col-md-6">Not logged</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">Grey</div>
+            <div class="col-md-6">Disabled</div>
+        </div>
+
+        </div>
+    </div>
+     {{  calender_context.calendar }} 
+
+    
+
+
+      
+       
+    
+    {% endif %}
+
+{% else %}
+
+{% endif %}
+
+
+
+{% else %}
+
+<h3>You dont have any department contact Hr </h3> 
+
+
+
+{% endif %}
+    
+
+
+
+
+
+
+ 
+{% endblock content %}
+
+
+
+

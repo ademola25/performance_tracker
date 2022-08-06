@@ -1,0 +1,153 @@
+
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Manager's Dashboard
+{% endblock title %}
+
+
+{% block content %}
+
+{% if request.user.role == 'hod' %}
+    
+{% include 'partials/hod_navbar.html' %}
+
+{% else %}
+{% include 'partials/manager_navbar.html' %}
+
+
+{% endif %}
+    
+
+<div class="container-fluid">
+
+    {% include '../partials/messages.html' %}
+
+    {% include './components/add_comment.html' %}
+
+
+<div class="row">
+    <div class="col-md-4">
+        
+      <div class="white-box">
+        <p>                                
+            <strong>Trainee Name: </strong> {{numbers_of_days.trainee.name}}</br>
+        </p>
+        <hr />
+        <p>
+            
+            <strong>Departments: </strong> </br>
+            {% for tran_dept in numbers_of_days.trainee.trainee_departmenttrainees.all %}
+                {% for x in tran_dept.department.department_departmentmanagers.all %}
+                    <p>
+
+                        {% comment %}
+                    {{x.manager.name}}-                         
+                    {% endcomment %}
+                        
+                    {{x.department.department_name}} department<br>
+
+                    </p>
+                {% endfor %}
+            {% endfor %}
+                
+        </p>
+        <hr />
+        
+        {% comment %}
+            
+            
+        <p>
+            <strong>Aggregate score: </strong> 
+
+            <br />
+            
+            {% for train in numbers_of_days.department.trainee_commented_on_department.all %}
+            
+            {% if train.trainee == numbers_of_days.trainee %}
+                {{train.trainee.trainee_scored.first.aggregate_score}}
+            <br />
+
+            {% endif %} 
+            {% endfor %}
+                
+
+
+
+        </p>
+        <hr />
+        <p>
+            <strong>Attainable score: </strong> 
+            {% for train in numbers_of_days.department.trainee_commented_on_department.all %}
+            
+            {% if train.trainee == numbers_of_days.trainee %}
+                {{train.trainee.trainee_scored.first.attainable_score}}
+            <br />
+
+            {% endif %} 
+            {% endfor %}
+        </p>
+        <hr />
+        <p>
+            <strong>Department: </strong>  {{numbers_of_days.department}}
+        </p>
+        <hr />
+        {% endcomment %}
+
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        
+        <div class="white-box">
+            <h3>Managers Comments on Trainee</h3>
+            <hr>
+            <ul class="search-listing">
+                <div class="row">
+                    {% if managers_comment %}
+                    {% for comment in managers_comment %}
+                    <div class="col-md-3">
+                        <div class="text-center align-center"
+                        style="align-items:center !important;
+                        justify-content:center !important;
+                        background-color: rgb(161, 161, 161);
+                        width: 50px;
+                        height: 50px;border-radius: 50px">
+                            <h1 style="color:white;" >{{comment.manager.name.0}}</h1>
+                        </div>
+                        <p>
+                            <!-- {{comment.manager.name}}<br> -->
+                        </p>
+                       
+                    </div>
+                    <div class="col-md-9">
+                       
+                        <li>
+                            <strong>Comment</strong>
+                            <h5>{{comment.comment}}</h5>
+                            <p> {{ comment.created_at }}</p>   
+                            <p> {{ comment.department }} department</p>                        
+
+                        </li>
+                        
+                    </div>
+                </div>
+                {% endfor %}
+                        {% else %}
+                        No comment
+                        {% endif %}
+                <hr />
+                
+               
+            </ul>
+          </div>
+      </div>
+</div>
+
+</div>
+
+{% endblock content %}
+

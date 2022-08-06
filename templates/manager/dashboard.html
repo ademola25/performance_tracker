@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load get_item from comment_filter %}
+
+
+
+{% block title %}
+    Manager's Dashboard
+{% endblock title %}
+
+
+{% block extrahead %}
+
+{% endblock %}
+
+    
+
+{% block content %}
+{% include 'partials/manager_navbar.html' %}
+
+
+<div  class="container-fluid">
+    
+    <div class="row colorbox-group-widget">
+        <div class="col-md-4 col-sm-3 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #005555;">
+                    <div class="media-body">
+                        <h2 class="info-count">{{trainees_count}} <span class="pull-right"><i
+                                    class="mdi mdi-account-multiple-outline"></i></span></h2>
+                        <p class="info-text font-14">Number of Trainees</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-3 info-color-box">
+            <div class="white-box">
+                <div class="media" style="color:#fff; background-color: #A64B2A;">
+                    <div class="media-body">
+                        <h2 class="info-count">{{trainees_awaiting_hod}} <span class="pull-right"><i
+                                    class="mdi mdi-account-multiple-outline"></i></span></h2>
+                        <p class="info-text font-14">Trainees awaiting HOD approval</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-3 info-color-box">
+            <div class="white-box">
+                <div class="media bg-danger" style="color:#fff;">
+                    <div class="media-body">
+                        <h2 class="info-count">{{trainees_pending_all}}<span class="pull-right"><i
+                            class="mdi mdi-account-multiple-outline"></i></span></h2>
+                        <p class="info-text font-14">Trainees pending all approvals</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+</div>
+</div>
+
+</div>
+<!-- <div class="white-box"> -->
+
+{% include '../partials/messages.html' %}
+
+
+{% comment %}
+    
+ 
+{% endcomment %}
+
+</div>
+
+
+{% block script %}
+
+    
+{% endblock script %}
+    
+
+{% endblock content %}

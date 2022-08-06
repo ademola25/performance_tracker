@@ -1,0 +1,25 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+
+
+
+<div class="modal fade" id="confirmTempSavelog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <!-- <h4 class="modal-title text-center" id="exampleModalLabel1">Manager details</h4> </div> -->
+                <h3 class="text-center">Are you sure you want to save</h3>
+                 <div class="modal-footer text-center">
+                <div class="text-center">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                <button type="submit" name="edit_log_permanently" class="btn btn-success" form="createLogForm">Yes, save</button>
+                </div>                
+            </div> 
+        </div>
+    </div>
+</div>
+</div>

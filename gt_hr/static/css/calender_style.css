@@ -1,0 +1,47 @@
+.calendar {
+    width: 40%;
+    margin: auto;
+    font-size: 13px;
+  }
+  
+  .calendar tr, .calendar td {
+    border: 1px solid black;
+  }
+  
+  .calendar th {
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .calendar td {
+    width: 50px;
+    height: 68px;
+    padding: 20px 0px 0px 5px;
+}
+  
+  .month {
+    font-size: 25px;
+  }
+  
+  .date {
+    font-size: 16px;
+  }
+  
+  ul {
+    height: 50%;
+    padding: 0px 5px 0px 20px;
+  }
+  
+  a {
+    color: #e20f00;
+  }
+  .profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+  }

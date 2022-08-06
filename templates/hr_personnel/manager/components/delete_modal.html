@@ -1,0 +1,26 @@
+{% load static %}
+ 
+
+<div class="modal fade" id="managerdeletModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="manager"> Are you sure you want to delete user </h4>
+
+            </div>
+                <h3 class="text-center"> </h3>
+        <div class="text-center m-5 p-t-5 pt-5">
+            <form id="managerDeleteForm" method="POST" action="" >
+                {% csrf_token %}
+
+                <button type="submit"  class="btn btn-danger btn-block">Yes</button>
+                <button class="btn btn-warning btn-block" data-dismiss="modal">No</button>
+            </form>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

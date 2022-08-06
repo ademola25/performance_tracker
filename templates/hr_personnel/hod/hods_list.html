@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    HOD
+{% endblock title %}
+
+
+
+{% block extrahead %}
+    <script src="{% static '/js/hr_personnel.js' %}"></script>
+{% endblock extrahead %}
+    
+
+    
+
+{% block content %}
+{% include 'partials/left_sidebar.html' %}
+
+<div  class="container-fluid">
+
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'hr_personnel:hr_personnel_dashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="">HOD list</a></li>
+            </ol>
+        </nav>
+    </div>
+
+<div class="row">
+
+{% include './components/delete_modal.html' %}
+
+{% include './components/edit_modal.html' %}
+{% include './components/view_modal.html' %}
+{% include './add_hod.html' %}
+
+
+    {% include '../../partials/messages.html' %}
+    
+    
+
+
+
+
+<div class="white-box">
+    <div class="text-right" style="margin:0px 10px 30px 0px;"  class="col-md-1">
+        <button data-toggle="modal" data-target="#addHod" data-whatever="@mdo" class="btn btn-primary">Add HOD</button>
+    </div>
+        <div class="table-responsive">
+            <table class="table product-overview table-bordered table-striped table-dark" id="myTable">
+                <div class="nav navbar-top-links navbar-right ">
+                    <input type="text" placeholder="Search for HOD..." id="searchField" class="form-control">
+                </div>
+                <h1 class="box-title m-b-0 text-capitalize m-b-5">ALL HODS</h1>
+                <thead>
+                    <tr>
+                        <th>HOD ID</th>
+                        <th>HOD Name</th>
+                        <th>HOD Email</th>
+                        <th>HOD Department</th>
+                        <th>Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="trainees">
+
+                    {% if hods %}
+
+                    
+                    {% for hod in hods %}
+                    <tr>
+                        <td>{{hod.staff_id}}</td>
+                        <td>{{hod.name}}</td>
+                        <td>{{hod.email}}</td>
+                        <td>{{hod.hod_departmenthod.all.0.department.department_name}}</td>
+
+                        
+                        <td>
+                            <a class="text-inverse p-r-10"  href="{% url 'hr_personnel:edit_user' hod.id %}" >
+                                <i class="ti-marker-alt"  ></i>
+                            </a>
+                            
+                            <a data-id="{{ hod.id }}"  data-name="{{ hod.name }}" class="text-inverse" title="Delete" data-toggle="modal" data-target="#hoddeletModal"  data-whatever="@mdo">
+                                <i class="ti-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                         
+
+                    {% else %}
+                    
+                        No hod currently available
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+    
+{% endblock content %}
+    

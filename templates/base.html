@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} {% endblock title %} 
+    </title>
+
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+    <link href="{% static 'css/calender_style.css'%}" rel="stylesheet">
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+    <link href="{% static 'css/colors/red.css'%}" rel="stylesheet">
+    <link href="{% static 'css/jquery-ui.css'%}" rel="stylesheet">
+    <link href="{% static 'css/extra.css'%}" rel="stylesheet">
+
+
+    
+    {% block extrahead %}
+        
+    {% endblock %}
+        
+</head>
+
+    <body class="fix-header mini-sidebar show-sidebar">
+        <!-- ===== Main-Wrapper ===== -->
+        <div id="wrapper">
+            <div class="preloader">
+                <div class="cssload-speeding-wheel"></div>
+            </div>
+            
+            {% block modal %}
+                
+            {% endblock %}
+      {% include 'partials/navbar.html' %}
+      <div class="page-wrapper">
+
+      {% block content %}
+
+      {% endblock %}
+    </div>
+
+    </div>
+        
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/sidebarmenu.js' %}"></script>
+
+    
+    <script src="{% static 'js/custom.js' %}"></script>
+    
+    <script src="{% static 'js/waves.js' %}"></script>
+    
+    <script src="{% static 'js/searchTrainee.js' %}"></script>
+    <script src="{% static 'js/modal.js' %}"></script>
+    
+
+
+
+
+    <script>
+      var holiDays = ["2022-03-23"]; //suppose 17th june is holiday, we can also add others holidays 
+      var logDays = ["2022-03-22"]; //suppose 17th june is holiday, we can also add others holidays 
+
+function disableHoliday(date) {
+    var string = $.datepicker.formatDate('yy-mm-dd', date);
+          
+    var filterDate = new Date(string);
+    var day = filterDate.getDay();
+    var isHoliday = ($.inArray(string, holiDays) != -1);
+    
+    return [day != 0 && day !=6 && !isHoliday]
+ }
+
+ function paintLoggedDays(date) {
+    var string = $.datepicker.formatDate('yy-mm-dd', date);
+    var isHoliday = ($.inArray(string, holiDays) != -1);
+    
+    return [ !isHoliday]
+ }
+        
+ $( "#datepicker" ).datepicker({
+    maxDate: 0,
+    beforeShowDay: disableHoliday,
+    allLoggedDay: paintLoggedDays
+
+ });
+    </script>
+    
+</body>
+
+    
+
+
+</html>

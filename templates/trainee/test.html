@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Trainee Dashboard
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+{% include '../partials/messages.html' %}
+
+{% include './components/create_log_modal.html' %}
+
+
+{% if trainee_departments %}
+    
+<div class="row">
+    <!-- <h3 class="text-left p-l-5 ">Mapped Departments</h3> -->
+
+    {% for trainee_details in trainee_departments %}
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-10">{{trainee_details.department_name}}</h3>
+            <h5 class="box-title m-b-10">Trainee Name: <small class="text-muted">{{trainee.name}}</small></h5>
+            <h5 class="box-title m-b-10">Manager: <small class="text-muted">{{trainee_details.manager.name}}</small></h5>
+            <h5 class="box-title m-b-10">HOD: <small class="text-muted">{{ trainee_details.hod.name}}</small></h5>
+            <div class="row">
+                <div class="col-md-6 m-t-25">
+                    <a class="btn btn-primary" href="{% url 'trainee:trainee_details' trainee.id trainee_details.id%}" >View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+</div>
+{% comment %} 
+
+{% endcomment %}
+
+
+
+
+
+{% if aggregate_nod == None %}
+    You do not have any department or number of days has not been assinged to you    
+{% elif aggregate_nod == 0 %}
+    O days was set for the nmber of days to be spent in departments please contact admin
+{% elif aggregate_nod > 0 %}
+    {% if trainee_logs_count >= aggregate_nod  %} 
+    
+       <h3>
+           
+        <div class="text-center alert alert-warning alert-dismissable alert-sm">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>You have successfully logged for all number of days</div>
+        </h3>
+    {% else %}
+
+    <!-- <div class="clearfix">
+        <a class="btn btn-info left" href="{'% url 'trainee:trainee_dashboard' 1 %'} "> Previous Month </a>
+        <a class="btn btn-info right" href="{'% url 'trainee:trainee_dashboard' %}?{'{ next_month }}"> Next Month </a>
+    </div> -->
+
+
+    {{  calender_context.calendar }}
+    {% endif %}
+
+{% else %}
+
+{% endif %}
+
+
+
+{% else %}
+
+<h3>You dont have any department contact Hr </h3>
+
+{% endif %}
+    
+
+
+
+
+
+
+ 
+{% endblock content %}
+
+
+
+   
+<!-- 
+    <div class="table-responsive">
+        
+        <table class="table product-overview" id="myTable">
+            <div class="nav navbar-top-links navbar-right ">
+                <input type="text" placeholder="Search for trainee.." id="searchField" class="form-control">
+            </div>
+
+            <thead>
+                <tr>
+                    <th>Trainee ID</th>
+                    <th>Trainee Name</th>
+                    <th>Trainee Email</th>
+                    <th>Trainee Department </th>
+                    <th>Trainee Score </th>
+
+                   
+                    <th>Attainable score</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="trainees">
+                
+                {% if trainees %}
+
+                {% for trainee in trainees %}
+                <tr>                        
+                    <td>{{trainee.trainee.staff_id}}</td>
+                    <td>{{trainee.trainee.name}}</td>
+                    <td>{{trainee.trainee.email}}</td>
+                    <td>{{trainee.department.department_name}}</td>
+
+                    
+
+                
+
+                   {% comment %}
+                   <td>
+                    {% for trainee_score in managers_score %}
+                        {% if trainee.email == trainee_score.trainee__email %}
+                            {{trainee_score.score}}
+                        {% endif %}
+                    {% endfor %}
+                 </td>
+                   {% endcomment %}
+                     <td>
+                     
+                     {% if  trainee.trainee.trainee_scored.first == None %}
+                     0
+                     {% else %}
+                     {{trainee.trainee.trainee_scored.first.aggregate_score}}
+                     {% endif %}
+                         
+                     </td>
+
+  
+                     <td>
+                        {% if trainee.trainee.trainee_scored.first == None %}
+                        0
+                        {% else %}
+                        {{trainee.trainee.trainee_scored.first.attainable_score}}
+                        {% endif %}
+                            
+                        </td>
+
+                    
+                    
+                    {% comment %}
+                    <td>
+                        
+                        {% for email, score in mylist %}
+                        
+                        {% if trainee.email == email %}
+                        
+                        {{email}}  
+                        
+                        {% else %}
+                        -
+                        
+                        {% endif %}
+                            
+                            
+                        {% endfor %}
+                            
+                    </td>
+                    {% endcomment %}
+                        
+
+   
+                    
+
+
+                   
+                   
+                    <td> <a href="{% url 'manager:trainee_logs' trainee.trainee.id trainee.department.id%}" type="button" class="btn btn-primary" >View trainee logs</a></td>
+                    
+                                        
+                    
+                </tr>
+                {% endfor %}
+
+                {% else %}
+
+                <tr>
+                   You do not have any Trainee assigned to you
+                </tr>
+                    
+                {% endif %}
+                    
+               
+            </tbody>
+        </table>
+    </div> -->
+<!-- </div> -->
